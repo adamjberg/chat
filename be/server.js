@@ -1,8 +1,11 @@
+const dotenv = require("dotenv");
 const express = require("express");
 const mongodb = require("mongodb");
 
+dotenv.config();
+
 async function run() {
-    const client = await mongodb.MongoClient.connect("mongodb://localhost:27017/chat");
+    const client = await mongodb.MongoClient.connect(process.env.DB_URL);
     const db = client.db();
     const Message = db.collection("messages");
 

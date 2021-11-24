@@ -1,6 +1,8 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const mongodb = require("mongodb");
+const http = require('http');
+const { Server } = require("socket.io");
 
 dotenv.config();
 
@@ -10,6 +12,8 @@ async function run() {
     const Message = db.collection("messages");
 
     const app = express();
+    const server = http.createServer(app);
+    const io = new Server(server);
 
     app.use(express.json());
 
@@ -17,7 +21,7 @@ async function run() {
 
     app.get("/api/rooms/:id/messages", async (req, res, next) => {
         const { id } = req.params;
-        const messages = await Message.find({ 
+        const messages = await Message.find({
             room: new mongodb.ObjectId(id)
         }).toArray();
         res.json({
@@ -31,10 +35,13 @@ async function run() {
             room: new mongodb.ObjectId(id),
             body: req.body.body
         });
+
+        io.emit("message", req.body.body);
+
         res.sendStatus(200);
     });
 
-    app.listen(1337);
+    server.listen(1337);
 }
 
 run();

@@ -1,3 +1,13 @@
+import { io } from "socket.io-client";
+
+const socket = io();
+
+socket.on("message", (body) => {
+    const newMessage = Message({ body });
+    messageList.appendChild(newMessage);
+    newMessage.scrollIntoView();
+})
+
 function Message(props: { body: string }) {
     const el = Div({
         class: "message"
@@ -71,10 +81,6 @@ function handleSubmit(text: string) {
     }).catch((err) => {
         alert(err.message);
     });
-
-    const newMessage = Message({ body: text });
-    messageList.appendChild(newMessage);
-    newMessage.scrollIntoView();
 }
 
 const textBox = TextBox({ onSubmit: handleSubmit });

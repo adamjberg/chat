@@ -15,15 +15,20 @@ async function run() {
 
     app.use(express.static("../fe/public"));
 
-    app.get("/api/messages", async (req, res, next) => {
-        const messages = await Message.find({}).toArray();
+    app.get("/api/rooms/:id/messages", async (req, res, next) => {
+        const { id } = req.params;
+        const messages = await Message.find({ 
+            room: new mongodb.ObjectId(id)
+        }).toArray();
         res.json({
             data: messages
         })
     });
 
-    app.post("/api/messages", async (req, res, next) => {
+    app.post("/api/rooms/:id/messages", async (req, res, next) => {
+        const { id } = req.params;
         await Message.insertOne({
+            room: new mongodb.ObjectId(id),
             body: req.body.body
         });
         res.sendStatus(200);

@@ -13,7 +13,7 @@ function MessageList() {
         class: "message-list"
     });
 
-    fetch("/api/messages").then(async (res) => {
+    fetch("/api/rooms/611f1cca1def03484db6db32/messages").then(async (res) => {
         const jsonData = await res.json();
         const messages = jsonData.data;
         for (const message of messages) {
@@ -62,7 +62,7 @@ const root = document.getElementById("root");
 const messageList = MessageList();
 
 function handleSubmit(text: string) {
-    fetch("/api/messages", {
+    fetch("/api/rooms/611f1cca1def03484db6db32/messages", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

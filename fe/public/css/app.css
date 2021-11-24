@@ -3,12 +3,25 @@ body {
     overflow: hidden;
 }
 
+.header {
+    height: 50px;
+    background-color: #424242;
+    color: white;
+    font-size: 2em;
+    display: flex;
+    align-items: center;
+}
+
+.room-title {
+    margin: 0 auto;
+}
+
 .message-list {
     position: absolute;
     bottom: 50px;
     overflow-y: scroll;
     overflow-x: hidden;
-    top: 0;
+    top: 50px;
     left: 0;
     right: 0;
     max-width: 900px;

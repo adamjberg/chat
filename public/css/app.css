@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+}
+
+.textbox {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.textbox input {
+    width: 100%;
+}

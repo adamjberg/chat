@@ -10,7 +10,7 @@ async function run() {
 
     app.use(express.static("../fe/public"));
 
-    app.get("/api/notes", async (req, res, next) => {
+    app.get("/api/messages", async (req, res, next) => {
         const messages = await Message.find({}).toArray();
         res.json({
             data: messages

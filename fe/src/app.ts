@@ -1,5 +1,3 @@
-const messages = ["this is first message", "here is a second", "and another\nwith multiple lines"];
-
 function Message(props: { body: string }) {
     const el = Div({
         class: "message"
@@ -15,9 +13,13 @@ function MessageList() {
         class: "message-list"
     });
 
-    for (const message of messages) {
-        el.appendChild(Message({ body: message }));
-    }
+    fetch("/api/messages").then(async (res) => {
+        const jsonData = await res.json();
+        const messages = jsonData.data;
+        for (const message of messages) {
+            el.appendChild(Message({ body: message.body }));
+        }
+    })
 
     return el;
 }
@@ -65,7 +67,7 @@ function handleSubmit(text: string) {
     newMessage.scrollIntoView();
 }
 
-const textBox = TextBox({onSubmit: handleSubmit});
+const textBox = TextBox({ onSubmit: handleSubmit });
 
 root.appendChild(messageList);
 root.appendChild(textBox);

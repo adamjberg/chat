@@ -12,7 +12,7 @@ function Message(props: { body: string }) {
 
 function MessageList() {
     const el = Div({
-        class: "textbox"
+        class: "message-list"
     });
 
     for (const message of messages) {
@@ -36,17 +36,36 @@ function Input() {
     return document.createElement("input");
 }
 
-function TextBox() {
+function TextBox(props: { onSubmit: (text: string) => void; }) {
     const el = Div({
         class: "textbox"
     });
 
-    el.appendChild(Input());
+    const input = Input();
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            props.onSubmit(input.value);
+            input.value = "";
+        }
+    })
+
+    el.appendChild(input);
 
     return el;
 }
 
 const root = document.getElementById("root");
 
-root.appendChild(MessageList());
-root.appendChild(TextBox())
+const messageList = MessageList();
+
+function handleSubmit(text: string) {
+    const newMessage = Message({ body: text });
+    messageList.appendChild(newMessage);
+    newMessage.scrollIntoView();
+}
+
+const textBox = TextBox({onSubmit: handleSubmit});
+
+root.appendChild(messageList);
+root.appendChild(textBox);

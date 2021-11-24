@@ -8,6 +8,8 @@ async function run() {
 
     const app = express();
 
+    app.use(express.json());
+
     app.use(express.static("../fe/public"));
 
     app.get("/api/messages", async (req, res, next) => {
@@ -15,6 +17,13 @@ async function run() {
         res.json({
             data: messages
         })
+    });
+
+    app.post("/api/messages", async (req, res, next) => {
+        await Message.insertOne({
+            body: req.body.body
+        });
+        res.sendStatus(200);
     });
 
     app.listen(1337);

@@ -62,6 +62,16 @@ const root = document.getElementById("root");
 const messageList = MessageList();
 
 function handleSubmit(text: string) {
+    fetch("/api/messages", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ body: text }),
+    }).catch((err) => {
+        alert(err.message);
+    });
+
     const newMessage = Message({ body: text });
     messageList.appendChild(newMessage);
     newMessage.scrollIntoView();
